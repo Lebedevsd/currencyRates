@@ -34,7 +34,10 @@ abstract class BaseViewModel<A : Action, S : State>(
                 .withLatestFrom(internalState, reduceState(reducer))
                 .doOnError { Timber.e(it) }
                 .distinctUntilChanged()
-                .subscribe { internalState.onNext(it) }
+                .subscribe {
+                    Timber.d("Log State $it")
+                    internalState.onNext(it)
+                }
         )
     }
 
