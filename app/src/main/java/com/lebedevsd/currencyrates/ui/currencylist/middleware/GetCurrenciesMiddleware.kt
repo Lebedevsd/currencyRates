@@ -19,17 +19,16 @@ class GetCurrenciesMiddleware @Inject constructor(
         return actions
             .observeOn(Schedulers.io())
             .ofType(CurrencyListActions.LoadData::class.java)
-            .flatMap { state }
-            .flatMap {
+            .switchMap { state.take(1) }
+            .switchMap {
                 getCurrencyRatesInteractor(it.selectedCurrency)
+                    .map<CurrencyListActions> { response ->
+                        CurrencyListActions.DataLoaded(
+                            response
+                        )
+                    }
+                    .onExceptionResumeNext(Flowable.just(CurrencyListActions.DataLoadFailed()))
             }
-            .map<CurrencyListActions> { response ->
-                CurrencyListActions.DataLoaded(
-                    response
-                )
-            }
-            .onErrorReturn {
-                CurrencyListActions.DataLoadFailed(it)
-            }
+
     }
 }

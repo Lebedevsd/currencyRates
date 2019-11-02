@@ -20,7 +20,6 @@ class LoadDataEverySecondMiddleware @Inject constructor(
             .ofType(CurrencyListActions.LoadInitialData::class.java)
             .flatMap {
                 Flowable.interval(1, TimeUnit.SECONDS)
-                    .delay(1, TimeUnit.SECONDS)
                     .map { CurrencyListActions.LoadData }
             }
     }

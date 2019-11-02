@@ -25,7 +25,6 @@ abstract class BaseViewModel<A : Action, S : State>(
     protected val actions: BehaviorProcessor<A> = BehaviorProcessor.create()
 
     fun initWithState(state: S) {
-        internalState.onNext(state)
         setMiddlewares()
         disposable.add(
             actions
@@ -39,6 +38,8 @@ abstract class BaseViewModel<A : Action, S : State>(
                     internalState.onNext(it)
                 }
         )
+
+        internalState.onNext(state)
     }
 
     private fun reduceState(reducer: MviReducer<S, A>): BiFunction<A, S, S> {
