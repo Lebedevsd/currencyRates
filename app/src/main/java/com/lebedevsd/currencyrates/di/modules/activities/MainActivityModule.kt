@@ -2,6 +2,7 @@ package com.lebedevsd.currencyrates.di.modules.activities
 
 import com.lebedevsd.currencyrates.MainActivity
 import com.lebedevsd.currencyrates.di.PerActivity
+import com.lebedevsd.currencyrates.ui.currencylist.CurrencyListFragmentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -13,8 +14,7 @@ abstract class MainActivityModule {
     internal abstract fun contributeMainActivity(): MainActivity
 
     @Module(
-//        includes = [SearchReposFragmentModule::class,
-//            RepoContributorsFragmentModule::class]
+        includes = [CurrencyListFragmentModule::class]
     )
     internal abstract class MainViewModule
 }
