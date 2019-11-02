@@ -32,9 +32,8 @@
    long consumerNode;
 }
 
-
 # ALSO REMEMBER KEEPING YOUR MODEL CLASSES
--keep class com.lebedevsd.githubviewer.api.model.** { *; }
+-keep class com.lebedevsd.currencyrates.api.model.** { *; }
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep class * extends com.bumptech.glide.module.AppGlideModule {

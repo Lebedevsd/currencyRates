@@ -11,6 +11,7 @@ def rxAndroidVersion = "2.0.1"
 def appCompatVersion = "1.0.2"
 def coordinatorVersion = "1.0.0"
 def lifecycleVersion = "2.1.0"
+def lifecycleReactVersion = "2.2.0-rc01"
 def constraintLayoutVersion = "1.1.3"
 def junitVersion = "5.5.1"
 def mockkVersion = "1.9.3.kotlin12"
@@ -93,6 +94,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$savedStateVersion"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleReactVersion"
+
 
     // Logger
     implementation "com.jakewharton.timber:timber:$timberVersion"
