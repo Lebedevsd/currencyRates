@@ -5,6 +5,8 @@ import com.lebedevsd.currencyrates.base.mvi.MviReducer
 import com.lebedevsd.currencyrates.base.mvi.State
 import com.lebedevsd.currencyrates.base.mvi.ViewStateErrorEvent
 import com.lebedevsd.currencyrates.ui.views.CurrencyPresentationModel
+import java.math.BigDecimal
+import java.math.RoundingMode
 import javax.inject.Inject
 
 data class CurrencyListState(
@@ -17,7 +19,7 @@ data class CurrencyListState(
     companion object {
         val InitialState = CurrencyListState(
             selectedCurrency = "",
-            selectedValue = 0.0
+            selectedValue = 1.0
         )
     }
 }
@@ -25,11 +27,13 @@ data class CurrencyListState(
 sealed class CurrencyListActions : Action {
     object LoadInitialData : CurrencyListActions()
     object LoadData : CurrencyListActions()
+    data class ValueInput(val input: String) : CurrencyListActions()
     data class DataLoaded(val currenciesPresentationModels: List<CurrencyPresentationModel>) :
         CurrencyListActions()
 
     class DataLoadFailed(val error: Throwable) : CurrencyListActions()
     data class SelectCurrency(val currency: String) : CurrencyListActions()
+    data class RecalculateValues(val input: Double) : CurrencyListActions()
 }
 
 class CurrencyListReducer @Inject constructor() :
@@ -45,13 +49,29 @@ class CurrencyListReducer @Inject constructor() :
             is CurrencyListActions.SelectCurrency -> {
                 val sortedList = old.currencies.toMutableList()
                 val index = sortedList.indexOfFirst { it.title == action.currency }
-                sortedList.add(0, sortedList.removeAt(index))
+                val item = sortedList.removeAt(index)
+                sortedList.add(0, item)
                 old.copy(
+                    selectedValue = item.value,
                     selectedCurrency = action.currency,
                     currencies = sortedList
                 )
             }
             is CurrencyListActions.LoadData -> old
+            is CurrencyListActions.ValueInput -> old
+            is CurrencyListActions.RecalculateValues -> {
+                old.copy(
+                    selectedValue = action.input,
+                    currencies = old.currencies.map {
+                        it.copy(
+                            value = BigDecimal(action.input * it.exchangeRate).setScale(
+                                2,
+                                RoundingMode.HALF_UP
+                            ).toDouble()
+                        )
+                    }
+                )
+            }
         }
     }
 }

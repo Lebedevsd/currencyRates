@@ -6,9 +6,14 @@ import com.lebedevsd.currencyrates.interactor.GetCurrencyRatesInteractor
 import com.lebedevsd.currencyrates.ui.currencylist.CurrencyListActions
 import com.lebedevsd.currencyrates.ui.currencylist.CurrencyListState
 import com.lebedevsd.currencyrates.ui.views.CurrencyPresentationModel
+import com.lebedevsd.currencyrates.utils.CurrencyUtils
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
+import java.math.BigDecimal
+import java.math.RoundingMode
 import javax.inject.Inject
+
 
 class GetCurrenciesMiddleware @Inject constructor(
     private val getCurrencyRatesInteractor: GetCurrencyRatesInteractor
@@ -25,6 +30,7 @@ class GetCurrenciesMiddleware @Inject constructor(
             .switchMap {
                 getCurrencyRatesInteractor(it.selectedCurrency)
                     .map { response ->
+                        Timber.d("State has : ${it.selectedValue}")
                         response.toPresentationModel(it.selectedValue)
                     }
                     .map<CurrencyListActions> { pm ->
@@ -36,7 +42,6 @@ class GetCurrenciesMiddleware @Inject constructor(
                         CurrencyListActions.DataLoadFailed(it)
                     }
             }
-
     }
 }
 
@@ -44,8 +49,21 @@ private fun CurrencyRatesResponse.toPresentationModel(
     selectedValue: Double
 ): List<CurrencyPresentationModel> {
     val currencies = this.rates.entries.map {
-        CurrencyPresentationModel(it.key, it.value * selectedValue, it.value)
+        CurrencyPresentationModel(
+            it.key,
+            CurrencyUtils.getCurrencySymbol(it.key),
+            BigDecimal(it.value * selectedValue).setScale(2, RoundingMode.HALF_UP).toDouble(),
+            it.value
+        )
     }.toMutableList()
-    currencies.add(0, CurrencyPresentationModel(this.base, selectedValue, 1.0))
+    currencies.add(
+        0,
+        CurrencyPresentationModel(
+            this.base,
+            CurrencyUtils.getCurrencySymbol(this.base),
+            selectedValue,
+            1.0
+        )
+    )
     return currencies
 }

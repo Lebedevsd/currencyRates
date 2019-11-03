@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="currency_cell_height">72dp</dimen>
+    <dimen name="currency_flag_size">40dp</dimen>
+    <dimen name="dimen_standart_1">16dp</dimen>
 </resources>

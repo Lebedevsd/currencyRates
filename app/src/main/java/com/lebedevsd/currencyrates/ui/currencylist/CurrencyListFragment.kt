@@ -1,9 +1,15 @@
 package com.lebedevsd.currencyrates.ui.currencylist
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,11 +29,15 @@ class CurrencyListFragment :
     private val currencyListAdapter by lazy {
         DiffAdapter(
             listOf(
-                currencyAdapterDelegate {
+                currencyAdapterDelegate({
                     viewModel.userAction(
                         CurrencyListActions.SelectCurrency(it.title)
                     )
-                }
+                }, {
+                    viewModel.userAction(
+                        CurrencyListActions.ValueInput(it)
+                    )
+                })
 //                LoadingDelegate(),
 
             )
@@ -65,14 +75,52 @@ class CurrencyListFragment :
         state.error?.consume { showError(it) }
     }
 
-    fun currencyAdapterDelegate(itemClickedListener: (CurrencyPresentationModel) -> Unit) =
+    fun currencyAdapterDelegate(
+        itemClickedListener: (CurrencyPresentationModel) -> Unit,
+        inputListener: (String) -> Unit
+    ) =
         adapterDelegate<CurrencyPresentationModel, ListItem>(R.layout.viewholder_item_currency) {
 
-            val name: TextView = findViewById(R.id.repo_name)
-            name.setOnClickListener { itemClickedListener(item) }
+            val title: TextView = findViewById(R.id.title)
+            val description: TextView = findViewById(R.id.description)
+            val amount: EditText = findViewById(R.id.amount)
+            val view: View = findViewById(R.id.currency_item)
+            view.setOnClickListener {
+                if (adapterPosition != 0) {
+                    itemClickedListener(item)
+                    amount.setSelection(amount.text.length)
+                }
+            }
 
-            bind { diffPayloads ->
-                name.text = "${item.title} ${item.value} ${item.exchangeRate}"
+            bind {
+                title.text = item.title
+                description.text = item.description
+
+                if (item.value.toString() != amount.text.toString()) {
+                    amount.setText(item.value.toString())
+                    if (adapterPosition == 0) {
+                        amount.setSelection(amount.text.length)
+                        amount.requestFocus()
+                        val imm =
+                            amount.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
+                        imm!!.showSoftInput(amount, SHOW_IMPLICIT)
+                    }
+                }
+
+                amount.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(p0: Editable?) {
+                        if (adapterPosition == 0) {
+                            inputListener(p0.toString())
+                        }
+                    }
+
+                })
             }
         }
 }
