@@ -3,4 +3,9 @@
     <dimen name="currency_cell_height">72dp</dimen>
     <dimen name="currency_flag_size">40dp</dimen>
     <dimen name="dimen_standart_1">16dp</dimen>
+    <dimen name="dimen_standart_2">72dp</dimen>
+    <dimen name="title_text_size">23sp</dimen>
+    <dimen name="currency_title_size">16sp</dimen>
+    <dimen name="currency_subtitle_size">14sp</dimen>
+    <dimen name="currency_edit_text_size">20sp</dimen>
 </resources>

@@ -6,6 +6,67 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/backgroundColor</item>
     </style>
 
+    <style name="CurrenciesLogoImageView">
+        <item name="android:layout_height">@dimen/currency_flag_size</item>
+        <item name="android:layout_width">@dimen/currency_flag_size</item>
+        <item name="android:layout_marginStart">@dimen/dimen_standart_1</item>
+        <item name="android:layout_marginTop">@dimen/dimen_standart_1</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_standart_1</item>
+    </style>
+
+    <style name="CurrenciesTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">top</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/currency_title_size</item>
+    </style>
+
+    <style name="CurrenciesTextView.Title" parent="CurrenciesTextView">
+        <item name="android:layout_marginStart">@dimen/dimen_standart_2</item>
+        <item name="android:layout_marginTop">@dimen/dimen_standart_1</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_standart_1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">top</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CurrenciesEditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_standart_1</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/currency_edit_text_size</item>
+    </style>
+
+    <style name="CurrenciesTextView.SubText" parent="CurrenciesTextView">
+        <item name="android:textColor">@color/light_gray</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity">top</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textSize">@dimen/currency_subtitle_size</item>
+    </style>
+
+    <style name="CurrenciesCell">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/currency_cell_height</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+
+    </style>
 </resources>
