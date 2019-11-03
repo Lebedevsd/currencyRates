@@ -9,13 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lebedevsd.currencyrates.R
 import com.lebedevsd.currencyrates.base.ui.BaseFragment
 import com.lebedevsd.currencyrates.ui.base.DiffAdapter
+import com.lebedevsd.currencyrates.ui.base.ImagesDisplayeDelegates
 import com.lebedevsd.currencyrates.ui.currency.currencyAdapterDelegate
 import kotlinx.android.synthetic.main.fragment_currencies.*
+import javax.inject.Inject
 
 
 class CurrencyListFragment :
     BaseFragment<CurrencyListState, CurrencyListActions, CurrencyListViewModel>() {
     override val viewModelClass: Class<CurrencyListViewModel> = CurrencyListViewModel::class.java
+
+    @Inject
+    lateinit var imageDisplayerDelegate: ImagesDisplayeDelegates
 
     private val currencyListAdapter by lazy {
         DiffAdapter(
@@ -30,7 +35,9 @@ class CurrencyListFragment :
                         viewModel.userAction(
                             CurrencyListActions.ValueInput(it)
                         )
-                    })
+                    },
+                    imageDisplayer = imageDisplayerDelegate
+                )
             )
         )
     }

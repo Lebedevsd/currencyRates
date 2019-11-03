@@ -27,7 +27,7 @@ class CurrencyUtils {
             Timber.d("${currencyLocaleMap}")
         }
 
-        fun getFlag(currency: Currency): String {
+        fun getFlagName(currency: Currency): String {
             return CountryFlag.flag(currencyLocaleMap[currency] ?: Locale(currency.currencyCode))
         }
 

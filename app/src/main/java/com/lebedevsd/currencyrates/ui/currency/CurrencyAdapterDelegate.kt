@@ -10,15 +10,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegate
 import com.lebedevsd.currencyrates.R
+import com.lebedevsd.currencyrates.ui.base.ImageDisplayer
 import com.lebedevsd.currencyrates.ui.base.ListItem
 
 fun currencyAdapterDelegate(
+    imageDisplayer: ImageDisplayer,
     selectCurrencyListener: (CurrencyPresentationModel) -> Unit,
     inputListener: (String) -> Unit
 ) =
     adapterDelegate<CurrencyPresentationModel, ListItem>(R.layout.viewholder_item_currency) {
 
-        val logo: ImageView = findViewById(R.id.currency_logo)
+        val flag_image: ImageView = findViewById(R.id.currency_logo)
         val title: TextView = findViewById(R.id.title)
         val description: TextView = findViewById(R.id.description)
         val amount: EditText = findViewById(R.id.amount)
@@ -33,12 +35,11 @@ fun currencyAdapterDelegate(
         }
 
         bind {
-            title.text = item.title
-            description.text = item.description
-
-            logo.setImageResource(
-                item.flagString.toImageResource(context)
-            )
+            if (title.text != item.title) {
+                imageDisplayer.displayTo(item.flagImage, flag_image)
+                title.text = item.title
+                description.text = item.description
+            }
 
             if (item.value.toString() != amount.text.toString()) {
                 amount.setText(item.value.toString())
@@ -73,7 +74,3 @@ fun currencyAdapterDelegate(
             })
         }
     }
-
-private fun String.toImageResource(context: Context): Int {
-    return context.resources.getIdentifier(this, "drawable", context.packageName)
-}
