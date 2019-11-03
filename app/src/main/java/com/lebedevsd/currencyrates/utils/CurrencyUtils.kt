@@ -28,7 +28,13 @@ class CurrencyUtils {
         }
 
         fun getFlagName(currency: Currency): String {
-            return CountryFlag.flag(currencyLocaleMap[currency] ?: Locale(currency.currencyCode))
+            if (currency.currencyCode == "EUR") {
+                return "flag_eu"
+            } else {
+                return CountryFlag.flag(
+                    currencyLocaleMap[currency] ?: Locale(currency.currencyCode)
+                )
+            }
         }
 
         fun getCurrencySymbol(currencyCode: String): Currency {
