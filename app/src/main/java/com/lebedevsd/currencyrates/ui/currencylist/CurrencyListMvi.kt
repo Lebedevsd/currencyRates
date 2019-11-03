@@ -4,13 +4,11 @@ import com.lebedevsd.currencyrates.base.mvi.Action
 import com.lebedevsd.currencyrates.base.mvi.MviReducer
 import com.lebedevsd.currencyrates.base.mvi.State
 import com.lebedevsd.currencyrates.base.mvi.ViewStateErrorEvent
-import com.lebedevsd.currencyrates.ui.views.CurrencyPresentationModel
-import java.math.BigDecimal
-import java.math.RoundingMode
+import com.lebedevsd.currencyrates.ui.currency.CurrencyPresentationModel
+import com.lebedevsd.currencyrates.ui.currency.calculateNewValue
 import javax.inject.Inject
 
 data class CurrencyListState(
-    val isLoading: Boolean = false,
     val currencies: List<CurrencyPresentationModel> = emptyList(),
     val selectedCurrency: String,
     val selectedValue: Double,
@@ -42,40 +40,44 @@ class CurrencyListReducer @Inject constructor() :
     MviReducer<CurrencyListState, CurrencyListActions> {
     override fun invoke(old: CurrencyListState, action: CurrencyListActions): CurrencyListState {
         return when (action) {
-            is CurrencyListActions.LoadInitialData -> old.copy(isLoading = true)
             is CurrencyListActions.DataLoadFailed -> old.copy(error = ViewStateErrorEvent(action.error))
             is CurrencyListActions.DataLoaded -> old.copy(
-                isLoading = false,
                 currencies = action.currenciesPresentationModels
             )
             is CurrencyListActions.SelectCurrency -> {
-                val sortedList = old.currencies.toMutableList()
-                val index = sortedList.indexOfFirst { it.title == action.currency }
-                val item = sortedList.removeAt(index)
-                sortedList.add(0, item)
+                val (sortedList, movedItem) = moveCurrencyUp(old, action)
                 old.copy(
-                    selectedValue = item.value,
+                    selectedValue = movedItem.value,
                     selectedCurrency = action.currency,
                     currencies = sortedList
                 )
             }
-            is CurrencyListActions.LoadData -> old
-            is CurrencyListActions.ScreenPaused -> old
-            is CurrencyListActions.ScreenResumed -> old
-            is CurrencyListActions.ValueInput -> old
             is CurrencyListActions.RecalculateValues -> {
                 old.copy(
                     selectedValue = action.input,
                     currencies = old.currencies.map {
                         it.copy(
-                            value = BigDecimal(action.input * it.exchangeRate).setScale(
-                                2,
-                                RoundingMode.HALF_UP
-                            ).toDouble()
+                            value = it.calculateNewValue(action.input)
                         )
                     }
                 )
             }
+            is CurrencyListActions.LoadInitialData -> old
+            is CurrencyListActions.LoadData -> old
+            is CurrencyListActions.ScreenPaused -> old
+            is CurrencyListActions.ScreenResumed -> old
+            is CurrencyListActions.ValueInput -> old
         }
+    }
+
+    private fun moveCurrencyUp(
+        old: CurrencyListState,
+        action: CurrencyListActions.SelectCurrency
+    ): Pair<List<CurrencyPresentationModel>, CurrencyPresentationModel> {
+        val sortedList = old.currencies.toMutableList()
+        val index = sortedList.indexOfFirst { it.title == action.currency }
+        val item = sortedList.removeAt(index)
+        sortedList.add(0, item)
+        return Pair(sortedList, item)
     }
 }

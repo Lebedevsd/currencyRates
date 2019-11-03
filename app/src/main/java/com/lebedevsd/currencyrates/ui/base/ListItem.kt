@@ -1,4 +1,4 @@
-package com.lebedevsd.currencyrates.ui.views
+package com.lebedevsd.currencyrates.ui.base
 
 interface ListItem {
     val listId: String

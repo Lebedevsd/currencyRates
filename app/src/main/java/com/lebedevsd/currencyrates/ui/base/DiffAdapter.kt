@@ -1,4 +1,4 @@
-package com.lebedevsd.currencyrates.ui.views
+package com.lebedevsd.currencyrates.ui.base
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate

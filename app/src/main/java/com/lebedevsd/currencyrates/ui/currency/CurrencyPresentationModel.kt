@@ -1,4 +1,8 @@
-package com.lebedevsd.currencyrates.ui.views
+package com.lebedevsd.currencyrates.ui.currency
+
+import com.lebedevsd.currencyrates.ui.base.ListItem
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 data class CurrencyPresentationModel(
     val title: String,
@@ -37,4 +41,11 @@ data class CurrencyPresentationModel(
         result = 31 * result + flagString.hashCode()
         return result
     }
+}
+
+inline fun CurrencyPresentationModel.calculateNewValue(newBaseValue: Double): Double {
+    return BigDecimal(newBaseValue * this.exchangeRate).setScale(
+        2,
+        RoundingMode.HALF_UP
+    ).toDouble()
 }

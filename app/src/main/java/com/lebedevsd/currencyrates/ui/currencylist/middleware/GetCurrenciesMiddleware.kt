@@ -5,7 +5,7 @@ import com.lebedevsd.currencyrates.base.mvi.MviMiddleware
 import com.lebedevsd.currencyrates.interactor.GetCurrencyRatesInteractor
 import com.lebedevsd.currencyrates.ui.currencylist.CurrencyListActions
 import com.lebedevsd.currencyrates.ui.currencylist.CurrencyListState
-import com.lebedevsd.currencyrates.ui.views.CurrencyPresentationModel
+import com.lebedevsd.currencyrates.ui.currency.CurrencyPresentationModel
 import com.lebedevsd.currencyrates.utils.CurrencyUtils
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
