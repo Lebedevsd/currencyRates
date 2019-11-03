@@ -20,6 +20,7 @@ def moshiVersion = "1.8.0"
 def glideVersion = "4.8.0"
 def roomVersion = "1.1.1"
 def daggerVersion = "2.22.1"
+def adaptersVersion = "4.2.0"
 def assistedInjectVersion = "0.5.0"
 def savedStateVersion = "1.0.0-alpha01"
 def navigationVersion = "2.1.0"
@@ -119,6 +120,10 @@ dependencies {
     // rxJava
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    // Adapters
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$adaptersVersion"
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:$adaptersVersion"
 
     // DI library
     implementation "com.google.dagger:dagger:$daggerVersion"

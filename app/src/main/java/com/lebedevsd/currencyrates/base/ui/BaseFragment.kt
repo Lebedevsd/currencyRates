@@ -2,6 +2,8 @@ package com.lebedevsd.currencyrates.base.ui
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
+import com.lebedevsd.currencyrates.R
 import com.lebedevsd.currencyrates.base.mvi.Action
 import com.lebedevsd.currencyrates.base.mvi.MviView
 import com.lebedevsd.currencyrates.base.mvi.MviViewModel
@@ -12,6 +14,9 @@ import javax.inject.Inject
 
 abstract class BaseFragment<S : State, A: Action, T : BaseViewModel<A, S> > : DaggerFragment(), MviView<S> {
 
+    protected abstract val viewModelClass: Class<T>
+    private var errorSnackBar: Snackbar? = null
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -19,7 +24,15 @@ abstract class BaseFragment<S : State, A: Action, T : BaseViewModel<A, S> > : Da
         ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
     }
 
-    protected abstract val viewModelClass: Class<T>
+    protected fun showError(error: Throwable) {
+        errorSnackBar = Snackbar.make(view!!, R.string.something_went_wrong, Snackbar.LENGTH_LONG).apply {
+            show()
+        }
+    }
+
+    protected fun dismissErrorIfShown() {
+        errorSnackBar?.dismiss()
+    }
 
     override fun <A : Action> bind(viewModel: MviViewModel<A, S>) {
         viewModel.state.observe(this,

@@ -26,3 +26,4 @@ interface MviMiddleware<A : Action, S : State> {
 
     operator fun invoke(actions: Flowable<A>, state: Flowable<S>): Flowable<out A>
 }
+

@@ -17,7 +17,7 @@ class CurrencyListViewModel @AssistedInject constructor(
 ) : BaseViewModel<CurrencyListActions, CurrencyListState>(reducer, handle) {
 
     init {
-        initWithState(CurrencyListState(selectedCurrency = ""))
+        initWithState(CurrencyListState.InitialState)
         userAction(CurrencyListActions.LoadInitialData)
     }
 
