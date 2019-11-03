@@ -27,6 +27,8 @@ data class CurrencyListState(
 sealed class CurrencyListActions : Action {
     object LoadInitialData : CurrencyListActions()
     object LoadData : CurrencyListActions()
+    object ScreenPaused : CurrencyListActions()
+    object ScreenResumed : CurrencyListActions()
     data class ValueInput(val input: String) : CurrencyListActions()
     data class DataLoaded(val currenciesPresentationModels: List<CurrencyPresentationModel>) :
         CurrencyListActions()
@@ -58,6 +60,8 @@ class CurrencyListReducer @Inject constructor() :
                 )
             }
             is CurrencyListActions.LoadData -> old
+            is CurrencyListActions.ScreenPaused -> old
+            is CurrencyListActions.ScreenResumed -> old
             is CurrencyListActions.ValueInput -> old
             is CurrencyListActions.RecalculateValues -> {
                 old.copy(

@@ -49,20 +49,24 @@ private fun CurrencyRatesResponse.toPresentationModel(
     selectedValue: Double
 ): List<CurrencyPresentationModel> {
     val currencies = this.rates.entries.map {
+        val currency = CurrencyUtils.getCurrencySymbol(it.key)
         CurrencyPresentationModel(
             it.key,
-            CurrencyUtils.getCurrencySymbol(it.key),
+            CurrencyUtils.getCurrencySymbol(it.key).displayName,
             BigDecimal(it.value * selectedValue).setScale(2, RoundingMode.HALF_UP).toDouble(),
-            it.value
+            it.value,
+            CurrencyUtils.getFlag(currency)
         )
     }.toMutableList()
+    val currency = CurrencyUtils.getCurrencySymbol(this.base)
     currencies.add(
         0,
         CurrencyPresentationModel(
             this.base,
-            CurrencyUtils.getCurrencySymbol(this.base),
+            currency.displayName,
             selectedValue,
-            1.0
+            1.0,
+            CurrencyUtils.getFlag(currency)
         )
     )
     return currencies

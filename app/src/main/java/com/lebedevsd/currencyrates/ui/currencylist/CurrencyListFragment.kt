@@ -1,5 +1,6 @@
 package com.lebedevsd.currencyrates.ui.currencylist
 
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.Editable
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +27,17 @@ import kotlinx.android.synthetic.main.fragment_currencies.*
 class CurrencyListFragment :
     BaseFragment<CurrencyListState, CurrencyListActions, CurrencyListViewModel>() {
     override val viewModelClass: Class<CurrencyListViewModel> = CurrencyListViewModel::class.java
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.userAction(CurrencyListActions.ScreenPaused)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.userAction(CurrencyListActions.ScreenResumed)
+    }
+
 
     private val currencyListAdapter by lazy {
         DiffAdapter(
@@ -81,10 +94,12 @@ class CurrencyListFragment :
     ) =
         adapterDelegate<CurrencyPresentationModel, ListItem>(R.layout.viewholder_item_currency) {
 
+            val logo: ImageView = findViewById(R.id.currency_logo)
             val title: TextView = findViewById(R.id.title)
             val description: TextView = findViewById(R.id.description)
             val amount: EditText = findViewById(R.id.amount)
             val view: View = findViewById(R.id.currency_item)
+
             view.setOnClickListener {
                 if (adapterPosition != 0) {
                     itemClickedListener(item)
@@ -96,6 +111,10 @@ class CurrencyListFragment :
                 title.text = item.title
                 description.text = item.description
 
+                logo.setImageResource(
+                    item.flagString.toImageResource(context)
+                )
+
                 if (item.value.toString() != amount.text.toString()) {
                     amount.setText(item.value.toString())
                     if (adapterPosition == 0) {
@@ -104,6 +123,12 @@ class CurrencyListFragment :
                         val imm =
                             amount.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
                         imm!!.showSoftInput(amount, SHOW_IMPLICIT)
+                    }
+                }
+
+                amount.setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus && v == amount && adapterPosition != 0){
+                        view.performClick()
                     }
                 }
 
@@ -123,4 +148,8 @@ class CurrencyListFragment :
                 })
             }
         }
+}
+
+private fun String.toImageResource(context: Context): Int {
+    return context.resources.getIdentifier(this, "drawable", context.packageName)
 }

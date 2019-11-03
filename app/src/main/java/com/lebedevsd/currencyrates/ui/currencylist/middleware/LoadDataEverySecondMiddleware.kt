@@ -17,10 +17,14 @@ class LoadDataEverySecondMiddleware @Inject constructor(
     ): Flowable<CurrencyListActions> {
         return actions
             .observeOn(Schedulers.io())
-            .ofType(CurrencyListActions.LoadInitialData::class.java)
+            .ofType(CurrencyListActions.ScreenResumed::class.java)
             .flatMap {
                 Flowable.interval(1, TimeUnit.SECONDS)
                     .map { CurrencyListActions.LoadData }
+                    .takeUntil(
+                        actions.observeOn(Schedulers.io())
+                            .ofType(CurrencyListActions.ScreenPaused::class.java)
+                    )
             }
     }
 }
