@@ -15,7 +15,7 @@ class CurrencyRatesRepository @Inject constructor(
      * @Returns list of all currencies
      */
     fun getCurrencies(baseCurrency: String): Flowable<CurrencyRatesResponse> {
-        return remoteApi.searchRepos(baseCurrency)
+        return remoteApi.getRates(baseCurrency)
             .toFlowable()
     }
 }

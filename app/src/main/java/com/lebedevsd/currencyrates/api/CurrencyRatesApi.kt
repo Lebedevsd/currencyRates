@@ -31,9 +31,9 @@ class CurrencyRatesApi @Inject constructor(
     }
 
     /**
-     * Performs network call to search for Repos
+     * Performs network call to get Rates
      */
-    fun searchRepos(baseCurrency: String): Single<CurrencyRatesResponse> {
+    fun getRates(baseCurrency: String): Single<CurrencyRatesResponse> {
         return Single.create { emitter ->
             val params: Map<String, String> = if (baseCurrency.isEmpty()) {
                 emptyMap()
