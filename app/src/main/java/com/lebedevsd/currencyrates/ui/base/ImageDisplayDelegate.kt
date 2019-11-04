@@ -17,24 +17,6 @@ interface ImageDisplayDelegate : ImageDisplayer {
     fun suitsFor(image: Image): Boolean
 }
 
-class ResourceImagesDisplayDelegate : ImageDisplayDelegate {
-
-    override fun suitsFor(image: Image) = image is ResourceImage
-
-    override fun displayTo(image: Image, to: ImageView) {
-        image as ResourceImage
-
-        Glide.with(to.context)
-            .applyDefaultRequestOptions(image.getGlideRequestOptions(to.context.resources))
-            .clear(to)
-        with(image as ResourceImage) {
-            val drawable = ContextCompat.getDrawable(to.context, drawableRes)
-            colorRes?.let { drawable?.setTint(ContextCompat.getColor(to.context, it)) }
-            to.setImageDrawable(drawable)
-        }
-    }
-}
-
 class FlagNameImagesDisplayDelegate : ImageDisplayDelegate {
 
     override fun suitsFor(image: Image) = image is FlagNameImage
@@ -64,7 +46,6 @@ class FlagNameImagesDisplayDelegate : ImageDisplayDelegate {
 
 class ImagesDisplayeDelegates @Inject constructor() : ImageDisplayer {
     protected val delegates = listOf(
-        ResourceImagesDisplayDelegate(),
         FlagNameImagesDisplayDelegate()
     )
 

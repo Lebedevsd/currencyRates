@@ -31,7 +31,7 @@ class CurrencyRatesApi @Inject constructor(
     }
 
     /**
-     * Performs network call to get Rates
+     * Performs network call to get rates
      */
     fun getRates(baseCurrency: String): Single<CurrencyRatesResponse> {
         return Single.create { emitter ->

@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
 /**
- * Provides Github entities from network API
+ * Provides CurrencyRates entities from network API
  */
 interface CurrencyRatesRestApi {
 

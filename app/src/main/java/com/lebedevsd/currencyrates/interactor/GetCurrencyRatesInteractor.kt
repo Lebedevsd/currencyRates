@@ -12,7 +12,7 @@ class GetCurrencyRatesInteractor
 @Inject constructor(private val repository: CurrencyRatesRepository) {
 
     /**
-     * @returns list of Contributors
+     * @returns get currencies response
      */
     operator fun invoke(baseCurrency: String = "") = getCurrencies(baseCurrency)
 

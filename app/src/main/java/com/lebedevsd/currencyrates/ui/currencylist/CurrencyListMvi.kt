@@ -30,7 +30,6 @@ sealed class CurrencyListActions : Action {
     data class ValueInput(val input: String) : CurrencyListActions()
     data class DataLoaded(val currenciesPresentationModels: List<CurrencyPresentationModel>) :
         CurrencyListActions()
-
     class DataLoadFailed(val error: Throwable) : CurrencyListActions()
     data class SelectCurrency(val currency: String) : CurrencyListActions()
     data class RecalculateValues(val input: Double) : CurrencyListActions()

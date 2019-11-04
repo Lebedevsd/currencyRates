@@ -44,14 +44,6 @@ internal fun RequestOptions.applyImageTransformations(
         }
     }
 
-
-@Parcelize
-data class ResourceImage(
-    @DrawableRes val drawableRes: Int,
-    @ColorRes val colorRes: Int? = null,
-    override val transformations: ImageTransformations = ImageTransformations(circle = true)
-) : Image, TransformableImage
-
 @Parcelize
 data class FlagNameImage(
     val flagName: String,
