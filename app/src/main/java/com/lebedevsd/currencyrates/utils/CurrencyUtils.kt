@@ -2,43 +2,42 @@ package com.lebedevsd.currencyrates.utils
 
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
-class CurrencyUtils {
+class CurrencyUtils @Inject constructor() {
 
-    companion object {
+    var currencyLocaleMap: SortedMap<Currency, Locale>
 
-        var currencyLocaleMap: SortedMap<Currency, Locale>
-
-        init {
-            currencyLocaleMap = TreeMap(Comparator<Currency> { p0, p1 ->
-                p0?.currencyCode?.compareTo(
-                    p1?.currencyCode ?: ""
-                ) ?: 0
-            })
-            for (availableLocale in Locale.getAvailableLocales()) {
-                try {
-                    val currency = Currency.getInstance(availableLocale)
-                    if (!currencyLocaleMap.containsKey(currency)) {
-                        currencyLocaleMap[currency] = availableLocale
-                    }
-                } catch (e: Exception) {
+    init {
+        currencyLocaleMap = TreeMap(Comparator<Currency> { p0, p1 ->
+            p0?.currencyCode?.compareTo(
+                p1?.currencyCode ?: ""
+            ) ?: 0
+        })
+        for (availableLocale in Locale.getAvailableLocales()) {
+            try {
+                val currency = Currency.getInstance(availableLocale)
+                if (!currencyLocaleMap.containsKey(currency)) {
+                    currencyLocaleMap[currency] = availableLocale
                 }
-            }
-            Timber.d("${currencyLocaleMap}")
-        }
-
-        fun getFlagName(currency: Currency): String {
-            if (currency.currencyCode == "EUR") {
-                return "flag_eu"
-            } else {
-                return CountryFlag.flag(
-                    currencyLocaleMap[currency] ?: Locale(currency.currencyCode)
-                )
+            } catch (e: Exception) {
             }
         }
+        Timber.d("${currencyLocaleMap}")
+    }
 
-        fun getCurrencySymbol(currencyCode: String): Currency {
-            return Currency.getInstance(currencyCode)
+    fun getFlagName(currency: Currency): String {
+        return if (currency.currencyCode == "EUR") {
+            "flag_eu"
+        } else {
+            CountryFlag.flag(
+                (currencyLocaleMap[currency]
+                    ?: Locale(currency.currencyCode)).country.toLowerCase()
+            )
         }
+    }
+
+    fun getCurrencySymbol(currencyCode: String): Currency {
+        return Currency.getInstance(currencyCode)
     }
 }

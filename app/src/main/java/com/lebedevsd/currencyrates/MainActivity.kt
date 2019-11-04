@@ -17,8 +17,4 @@ class MainActivity : DaggerAppCompatActivity() {
         appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
     }
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-//        return NavigationUI.navigateUp(navController, appBarConfiguration)
-//    }
 }

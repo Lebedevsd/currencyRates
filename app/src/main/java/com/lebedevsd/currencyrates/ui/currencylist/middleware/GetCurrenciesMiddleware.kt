@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 
 class GetCurrenciesMiddleware @Inject constructor(
-    private val getCurrencyRatesInteractor: GetCurrencyRatesInteractor
+    private val getCurrencyRatesInteractor: GetCurrencyRatesInteractor,
+    private val currencyUtils: CurrencyUtils
 ) : MviMiddleware<CurrencyListActions, CurrencyListState> {
 
     override fun invoke(
@@ -32,7 +33,7 @@ class GetCurrenciesMiddleware @Inject constructor(
                 getCurrencyRatesInteractor(it.selectedCurrency)
                     .map { response ->
                         Timber.d("State has : ${it.selectedValue}")
-                        response.toPresentationModel(it.selectedValue)
+                        response.toPresentationModel(it.selectedValue, currencyUtils)
                     }
                     .map<CurrencyListActions> { pm ->
                         CurrencyListActions.DataLoaded(
@@ -47,19 +48,20 @@ class GetCurrenciesMiddleware @Inject constructor(
 }
 
 private fun CurrencyRatesResponse.toPresentationModel(
-    selectedValue: Double
+    selectedValue: Double,
+    currencyUtils: CurrencyUtils
 ): List<CurrencyPresentationModel> {
     val currencies = this.rates.entries.map {
-        val currency = CurrencyUtils.getCurrencySymbol(it.key)
+        val currency = currencyUtils.getCurrencySymbol(it.key)
         CurrencyPresentationModel(
             it.key,
-            CurrencyUtils.getCurrencySymbol(it.key).displayName,
+            currencyUtils.getCurrencySymbol(it.key).displayName,
             BigDecimal(it.value * selectedValue).setScale(2, RoundingMode.HALF_UP).toDouble(),
             it.value,
-            FlagNameImage(CurrencyUtils.getFlagName(currency))
+            FlagNameImage(currencyUtils.getFlagName(currency))
         )
     }.toMutableList()
-    val currency = CurrencyUtils.getCurrencySymbol(this.base)
+    val currency = currencyUtils.getCurrencySymbol(this.base)
     currencies.add(
         0,
         CurrencyPresentationModel(
@@ -67,7 +69,7 @@ private fun CurrencyRatesResponse.toPresentationModel(
             currency.displayName,
             selectedValue,
             1.0,
-            FlagNameImage(CurrencyUtils.getFlagName(currency))
+            FlagNameImage(currencyUtils.getFlagName(currency))
         )
     )
     return currencies
