@@ -10,7 +10,24 @@ import java.util.concurrent.atomic.AtomicBoolean
 data class ViewStateErrorEvent(
     val payload: Throwable,
     override val isConsumed: AtomicBoolean = AtomicBoolean(false)
-): SingleEvent<Throwable>(payload), Parcelable {
+) : SingleEvent<Throwable>(payload), Parcelable {
+
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other)
+    }
+
+    override fun hashCode(): Int {
+        var result = payload.hashCode()
+        result = 31 * result + isConsumed.hashCode()
+        return result
+    }
+}
+
+@Parcelize
+data class ViewStateOfflineEvent(
+    val payload: String,
+    override val isConsumed: AtomicBoolean = AtomicBoolean(false)
+) : SingleEvent<String>(payload), Parcelable {
 
     override fun equals(other: Any?): Boolean {
         return super.equals(other)

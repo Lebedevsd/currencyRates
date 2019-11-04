@@ -1,9 +1,6 @@
 package com.lebedevsd.currencyrates.ui.currencylist
 
-import com.lebedevsd.currencyrates.base.mvi.Action
-import com.lebedevsd.currencyrates.base.mvi.MviReducer
-import com.lebedevsd.currencyrates.base.mvi.State
-import com.lebedevsd.currencyrates.base.mvi.ViewStateErrorEvent
+import com.lebedevsd.currencyrates.base.mvi.*
 import com.lebedevsd.currencyrates.ui.currency.CurrencyPresentationModel
 import com.lebedevsd.currencyrates.ui.currency.calculateNewValue
 import javax.inject.Inject
@@ -12,7 +9,10 @@ data class CurrencyListState(
     val currencies: List<CurrencyPresentationModel> = emptyList(),
     val selectedCurrency: String,
     val selectedValue: Double,
-    val error: ViewStateErrorEvent? = null
+    val isLoading: Boolean = true,
+    val isOnline: Boolean = true,
+    val error: ViewStateErrorEvent? = null,
+    val offlineEvent: ViewStateOfflineEvent? = null
 ) : State {
     companion object {
         val InitialState = CurrencyListState(
@@ -27,9 +27,11 @@ sealed class CurrencyListActions : Action {
     object LoadData : CurrencyListActions()
     object ScreenPaused : CurrencyListActions()
     object ScreenResumed : CurrencyListActions()
+    data class IsOnline(val isOnline: Boolean) : CurrencyListActions()
     data class ValueInput(val input: String) : CurrencyListActions()
     data class DataLoaded(val currenciesPresentationModels: List<CurrencyPresentationModel>) :
         CurrencyListActions()
+
     class DataLoadFailed(val error: Throwable) : CurrencyListActions()
     data class SelectCurrency(val currency: String) : CurrencyListActions()
     data class RecalculateValues(val input: Double) : CurrencyListActions()
@@ -41,7 +43,8 @@ class CurrencyListReducer @Inject constructor() :
         return when (action) {
             is CurrencyListActions.DataLoadFailed -> old.copy(error = ViewStateErrorEvent(action.error))
             is CurrencyListActions.DataLoaded -> old.copy(
-                currencies = action.currenciesPresentationModels
+                currencies = action.currenciesPresentationModels,
+                isLoading = false
             )
             is CurrencyListActions.SelectCurrency -> {
                 val (sortedList, movedItem) = moveCurrencyUp(old, action)
@@ -66,6 +69,21 @@ class CurrencyListReducer @Inject constructor() :
             is CurrencyListActions.ScreenPaused -> old
             is CurrencyListActions.ScreenResumed -> old
             is CurrencyListActions.ValueInput -> old
+            is CurrencyListActions.IsOnline -> reduceOnline(action, old)
+        }
+    }
+
+    private fun reduceOnline(
+        action: CurrencyListActions.IsOnline,
+        old: CurrencyListState
+    ): CurrencyListState {
+        return when {
+            action.isOnline -> old.copy(isOnline = action.isOnline, offlineEvent = null)
+            old.offlineEvent == null -> old.copy(
+                isOnline = action.isOnline,
+                offlineEvent = ViewStateOfflineEvent("No Network")
+            )
+            else -> old
         }
     }
 

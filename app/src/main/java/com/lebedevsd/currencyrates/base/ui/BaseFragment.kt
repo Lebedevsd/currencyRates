@@ -30,6 +30,12 @@ abstract class BaseFragment<S : State, A: Action, T : BaseViewModel<A, S> > : Da
         }
     }
 
+    protected fun showSnack(msg: String) {
+        errorSnackBar = Snackbar.make(view!!, msg, Snackbar.LENGTH_LONG).apply {
+            show()
+        }
+    }
+
     protected fun dismissErrorIfShown() {
         errorSnackBar?.dismiss()
     }

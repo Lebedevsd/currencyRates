@@ -30,19 +30,21 @@ class GetCurrenciesMiddleware @Inject constructor(
             .ofType(CurrencyListActions.LoadData::class.java)
             .switchMap { state.take(1) }
             .switchMap {
-                getCurrencyRatesInteractor(it.selectedCurrency)
-                    .map { response ->
-                        Timber.d("State has : ${it.selectedValue}")
-                        response.toPresentationModel(it.selectedValue, currencyUtils)
-                    }
-                    .map<CurrencyListActions> { pm ->
-                        CurrencyListActions.DataLoaded(
-                            pm
-                        )
-                    }
-                    .onErrorReturn {
-                        CurrencyListActions.DataLoadFailed(it)
-                    }
+                if (it.isOnline) {
+                    getCurrencyRatesInteractor(it.selectedCurrency)
+                        .map { response ->
+                            Timber.d("State has : ${it.selectedValue}")
+                            response.toPresentationModel(it.selectedValue, currencyUtils)
+                        }
+                        .map<CurrencyListActions> { pm ->
+                            CurrencyListActions.DataLoaded(
+                                pm
+                            )
+                        }
+                        .onErrorReturn {
+                            CurrencyListActions.DataLoadFailed(it)
+                        }
+                } else Flowable.empty()
             }
     }
 }

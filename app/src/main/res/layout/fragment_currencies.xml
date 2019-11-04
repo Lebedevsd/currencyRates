@@ -8,8 +8,14 @@
         android:id="@+id/title"
         style="@style/CurrenciesTextView.Title"
         android:layout_alignParentTop="true"
-        android:text="Rates"
+        android:text="@string/rates"
         tools:text="Rates" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"

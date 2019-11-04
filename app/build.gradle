@@ -25,6 +25,7 @@ def assistedInjectVersion = "0.5.0"
 def savedStateVersion = "1.0.0-alpha01"
 def navigationVersion = "2.1.0"
 def timberVersion = "4.7.1"
+def reactiveNetworkVersion = "3.0.6"
 def coreVersion = "1.0.1"
 def fragmentVersion = "1.1.0"
 
@@ -97,6 +98,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$savedStateVersion"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleReactVersion"
 
+    // Reactive Network
+    implementation "com.github.pwittchen:reactivenetwork-rx2:$reactiveNetworkVersion"
 
     // Logger
     implementation "com.jakewharton.timber:timber:$timberVersion"

@@ -29,6 +29,7 @@ data class CurrencyPresentationModel(
         if (title != other.title) return false
         if (description != other.description) return false
         if (exchangeRate != other.exchangeRate) return false
+        if (value != other.value) return false
         if (flagImage != other.flagImage) return false
 
         return true

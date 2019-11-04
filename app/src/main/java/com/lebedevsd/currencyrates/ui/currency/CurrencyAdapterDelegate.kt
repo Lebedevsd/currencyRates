@@ -35,42 +35,47 @@ fun currencyAdapterDelegate(
         }
 
         bind {
-            if (title.text != item.title) {
-                imageDisplayer.displayTo(item.flagImage, flag_image)
-                title.text = item.title
-                description.text = item.description
-            }
-
-            if (item.value.toString() != amount.text.toString()) {
-                amount.setText(item.value.toString())
-                if (adapterPosition == 0) {
-                    amount.setSelection(amount.text.length)
-                    amount.requestFocus()
-                    val imm =
-                        amount.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-                    imm!!.showSoftInput(amount, InputMethodManager.SHOW_IMPLICIT)
-                }
-            }
-
-            amount.setOnFocusChangeListener { v, hasFocus ->
-                if (hasFocus && v == amount && adapterPosition != 0) {
-                    view.performClick()
-                }
-            }
-
-            amount.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            if (it.isEmpty()) {
+                if (title.text != item.title) {
+                    imageDisplayer.displayTo(item.flagImage, flag_image)
+                    title.text = item.title
+                    description.text = item.description
                 }
 
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
+                if (item.value.toString() != amount.text.toString()) {
+                    amount.setText(item.value.toString())
                     if (adapterPosition == 0) {
-                        inputListener(p0.toString())
+                        amount.setSelection(amount.text.length)
+                        amount.requestFocus()
+                        val imm =
+                            amount.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                        imm!!.showSoftInput(amount, InputMethodManager.SHOW_IMPLICIT)
                     }
                 }
 
-            })
+                amount.setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus && v == amount && adapterPosition != 0) {
+                        view.performClick()
+                    }
+                }
+
+                amount.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(p0: Editable?) {
+                        if (adapterPosition == 0) {
+                            inputListener(p0.toString())
+                        }
+                    }
+                })
+            } else {
+                if (adapterPosition != 0) {
+                    amount.setText(item.value.toString())
+                }
+            }
         }
     }

@@ -10,7 +10,7 @@ import timber.log.Timber.DebugTree
 class CurrencyRatesApplication : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerApplicationComponent.builder().create(this)
+        return DaggerApplicationComponent.builder().application(this).build()
     }
 
     override fun onCreate() {

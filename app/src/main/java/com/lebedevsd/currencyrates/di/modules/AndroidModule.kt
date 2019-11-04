@@ -2,6 +2,7 @@ package com.lebedevsd.currencyrates.di.modules
 
 import android.app.Application
 import android.content.Context
+import com.lebedevsd.currencyrates.base.connectivity.ConnectivityLiveData
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,12 @@ class AndroidModule {
     @Singleton
     internal fun providesContext(application: Application): Context {
         return application
+    }
+
+    @Provides
+    @Singleton
+    internal fun providesConnectivityLiveData(application: Application): ConnectivityLiveData {
+        return ConnectivityLiveData(application)
     }
 
     @Provides

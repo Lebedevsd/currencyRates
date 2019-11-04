@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Rates</string>
     <string name="something_went_wrong">something went wrong</string>
+    <string name="rates">Rates</string>
 </resources>
