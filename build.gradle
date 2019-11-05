@@ -2,7 +2,7 @@
 
 
 buildscript {
-    ext.kotlin_version = '1.3.41'
+    ext.kotlin_version = '1.3.50'
     ext.junit_version = "1.5.1.0"
     ext.nav_version = "2.1.0"
 
@@ -12,7 +12,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:$junit_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
