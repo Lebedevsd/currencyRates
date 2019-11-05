@@ -24,7 +24,7 @@ abstract class BaseFragment<S : State, A : Action, T : BaseViewModel<A, S>> : Da
         ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
     }
 
-    protected fun showError(error: Throwable) {
+    protected fun showError() {
         errorSnackBar = Snackbar.make(view!!, R.string.something_went_wrong, Snackbar.LENGTH_LONG).apply {
             show()
         }

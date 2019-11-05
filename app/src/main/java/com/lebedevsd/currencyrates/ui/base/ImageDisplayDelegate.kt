@@ -47,13 +47,7 @@ class ImagesDisplayeDelegates @Inject constructor() : ImageDisplayer {
     )
 
     override fun displayTo(image: Image, to: ImageView) {
-        if (image != null) {
-            // begin
-            delegates.first { delegate -> delegate.suitsFor(image) }
-                .displayTo(image, to)
-            // end
-        } else {
-            to.setImageDrawable(null)
-        }
+        delegates.first { delegate -> delegate.suitsFor(image) }
+            .displayTo(image, to)
     }
 }

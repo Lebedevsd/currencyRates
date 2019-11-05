@@ -1,17 +1,18 @@
 package com.lebedevsd.currencyrates.utils
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
 
 object CountryFlag {
 
+    @SuppressLint("DefaultLocale")
     fun flag(iso: String): String {
-        var iso = iso
         if (TextUtils.isEmpty(iso)) {
             return "_unknown"
         }
-        if (iso.length > 3) {
-            iso = iso.substring(0, 3)
-        }
-        return "flag_" + iso.toLowerCase()
+
+        return "flag_" + (if (iso.length > 3) {
+            iso.substring(0, 3)
+        } else iso).toLowerCase()
     }
 }

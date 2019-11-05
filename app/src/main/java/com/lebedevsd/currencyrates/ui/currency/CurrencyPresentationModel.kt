@@ -45,7 +45,7 @@ data class CurrencyPresentationModel(
     }
 }
 
-inline fun CurrencyPresentationModel.calculateNewValue(newBaseValue: Double): Double {
+fun CurrencyPresentationModel.calculateNewValue(newBaseValue: Double): Double {
     return BigDecimal(newBaseValue * this.exchangeRate).setScale(
         2,
         RoundingMode.HALF_UP

@@ -71,7 +71,7 @@ class CurrencyListFragment :
     override fun render(state: CurrencyListState) {
         progress.isVisible = state.isLoading
         currencyListAdapter.items = state.currencies
-        state.error?.consume { showError(it) }
+        state.error?.consume { showError() }
         state.offlineEvent?.consume { showSnack(it) }
     }
 
