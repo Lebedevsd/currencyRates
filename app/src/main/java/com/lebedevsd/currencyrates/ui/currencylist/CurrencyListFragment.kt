@@ -15,7 +15,6 @@ import com.lebedevsd.currencyrates.ui.currency.currencyAdapterDelegate
 import kotlinx.android.synthetic.main.fragment_currencies.*
 import javax.inject.Inject
 
-
 class CurrencyListFragment :
     BaseFragment<CurrencyListState, CurrencyListActions, CurrencyListViewModel>() {
     override val viewModelClass: Class<CurrencyListViewModel> = CurrencyListViewModel::class.java
@@ -47,7 +46,8 @@ class CurrencyListFragment :
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_currencies, container, false)
@@ -84,5 +84,4 @@ class CurrencyListFragment :
         super.onResume()
         viewModel.userAction(CurrencyListActions.ScreenResumed)
     }
-
 }

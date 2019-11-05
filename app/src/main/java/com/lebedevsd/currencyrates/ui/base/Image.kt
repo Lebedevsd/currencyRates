@@ -3,8 +3,6 @@ package com.lebedevsd.currencyrates.ui.base
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.os.Parcelable
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
@@ -16,7 +14,6 @@ interface Image : Parcelable
 data class ImageTransformations(
     val circle: Boolean = false
 ) : Parcelable
-
 
 interface TransformableImage {
     val transformations: ImageTransformations?
@@ -49,4 +46,3 @@ data class FlagNameImage(
     val flagName: String,
     override val transformations: ImageTransformations = ImageTransformations(circle = true)
 ) : Image, TransformableImage
-

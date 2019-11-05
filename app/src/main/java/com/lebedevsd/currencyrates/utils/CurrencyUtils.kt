@@ -1,8 +1,8 @@
 package com.lebedevsd.currencyrates.utils
 
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import timber.log.Timber
 
 class CurrencyUtils @Inject constructor() {
 
@@ -23,7 +23,7 @@ class CurrencyUtils @Inject constructor() {
             } catch (e: Exception) {
             }
         }
-        Timber.d("${currencyLocaleMap}")
+        Timber.d("$currencyLocaleMap")
     }
 
     fun getFlagName(currency: Currency): String {

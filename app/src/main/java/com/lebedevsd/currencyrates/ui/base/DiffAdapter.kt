@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
-
 class DiffAdapter(
     delegates: List<AdapterDelegate<List<ListItem>>>
 ) : AsyncListDifferDelegationAdapter<ListItem>(ListDiffCallback()) {
@@ -23,4 +22,3 @@ class DiffAdapter(
             newItem.calculatePayload(oldItem)
     }
 }
-

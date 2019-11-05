@@ -8,8 +8,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class LoadDataEverySecondMiddleware @Inject constructor(
-) : MviMiddleware<CurrencyListActions, CurrencyListState> {
+class LoadDataEverySecondMiddleware @Inject constructor() : MviMiddleware<CurrencyListActions, CurrencyListState> {
 
     override fun invoke(
         actions: Flowable<CurrencyListActions>,

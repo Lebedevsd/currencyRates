@@ -12,7 +12,7 @@ import com.lebedevsd.currencyrates.di.ViewModelFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-abstract class BaseFragment<S : State, A: Action, T : BaseViewModel<A, S> > : DaggerFragment(), MviView<S> {
+abstract class BaseFragment<S : State, A : Action, T : BaseViewModel<A, S>> : DaggerFragment(), MviView<S> {
 
     protected abstract val viewModelClass: Class<T>
     private var errorSnackBar: Snackbar? = null

@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.lebedevsd.currencyrates.R
 import javax.inject.Inject
 
-
 interface ImageDisplayer {
     fun displayTo(image: Image, to: ImageView)
 }
@@ -35,14 +34,12 @@ class FlagNameImagesDisplayDelegate : ImageDisplayDelegate {
             .applyDefaultRequestOptions(image.getGlideRequestOptions(to.context.resources))
             .load(drawable)
             .into(to)
-
     }
 
     private fun toImageResource(context: Context, flagName: String): Int {
         return context.resources.getIdentifier(flagName, "drawable", context.packageName)
     }
 }
-
 
 class ImagesDisplayeDelegates @Inject constructor() : ImageDisplayer {
     protected val delegates = listOf(
@@ -51,10 +48,10 @@ class ImagesDisplayeDelegates @Inject constructor() : ImageDisplayer {
 
     override fun displayTo(image: Image, to: ImageView) {
         if (image != null) {
-            //begin
+            // begin
             delegates.first { delegate -> delegate.suitsFor(image) }
                 .displayTo(image, to)
-            //end
+            // end
         } else {
             to.setImageDrawable(null)
         }

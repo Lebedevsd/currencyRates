@@ -8,8 +8,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class InputDebouncerMiddleware @Inject constructor(
-) : MviMiddleware<CurrencyListActions, CurrencyListState> {
+class InputDebouncerMiddleware @Inject constructor() : MviMiddleware<CurrencyListActions, CurrencyListState> {
 
     override fun invoke(
         actions: Flowable<CurrencyListActions>,
@@ -27,6 +26,5 @@ class InputDebouncerMiddleware @Inject constructor(
                 }
                 CurrencyListActions.RecalculateValues(inputToDouble) as CurrencyListActions
             }
-
     }
 }

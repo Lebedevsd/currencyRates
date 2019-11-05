@@ -10,11 +10,10 @@ import com.lebedevsd.currencyrates.ui.currencylist.CurrencyListState
 import com.lebedevsd.currencyrates.utils.CurrencyUtils
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import java.math.BigDecimal
 import java.math.RoundingMode
 import javax.inject.Inject
-
+import timber.log.Timber
 
 class GetCurrenciesMiddleware @Inject constructor(
     private val getCurrencyRatesInteractor: GetCurrencyRatesInteractor,

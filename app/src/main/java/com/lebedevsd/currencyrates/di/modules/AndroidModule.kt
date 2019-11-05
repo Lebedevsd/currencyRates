@@ -9,8 +9,8 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import okhttp3.OkHttpClient
 import javax.inject.Singleton
+import okhttp3.OkHttpClient
 
 @Module
 class AndroidModule {

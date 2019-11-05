@@ -1,10 +1,8 @@
 package com.lebedevsd.currencyrates.base.mvi
 
-import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import java.util.concurrent.atomic.AtomicBoolean
-
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ViewStateErrorEvent(

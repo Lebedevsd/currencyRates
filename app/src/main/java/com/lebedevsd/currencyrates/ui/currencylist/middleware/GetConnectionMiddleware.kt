@@ -8,7 +8,6 @@ import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-
 class GetConnectionMiddleware @Inject constructor(
     private val connectivityState: Flowable<Connectivity>
 ) : MviMiddleware<CurrencyListActions, CurrencyListState> {

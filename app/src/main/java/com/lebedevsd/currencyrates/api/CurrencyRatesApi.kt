@@ -4,12 +4,11 @@ import com.lebedevsd.currencyrates.api.CurrencyRatesRestApi
 import com.lebedevsd.currencyrates.api.model.CurrencyRatesResponse
 import com.squareup.moshi.Moshi
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Inject
-import javax.inject.Singleton
-
 
 /**
  * Provides currency list content from network API

@@ -14,7 +14,7 @@ interface CurrencyRatesRestApi {
      * Performs network call to fetch latest currency update
      */
     @GET("latest")
-    fun fetchLatestCurrencyRates(@QueryMap options: Map<String, String> ): Call<CurrencyRatesResponse>
+    fun fetchLatestCurrencyRates(@QueryMap options: Map<String, String>): Call<CurrencyRatesResponse>
 
     companion object {
         /**

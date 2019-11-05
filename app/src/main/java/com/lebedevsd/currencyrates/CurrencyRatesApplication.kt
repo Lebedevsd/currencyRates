@@ -6,7 +6,6 @@ import dagger.android.DaggerApplication
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-
 class CurrencyRatesApplication : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

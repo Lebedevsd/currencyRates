@@ -16,5 +16,4 @@ class MainActivity : DaggerAppCompatActivity() {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
     }
-
 }
