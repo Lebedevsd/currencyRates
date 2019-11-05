@@ -18,6 +18,7 @@ internal class CurrencyListReducerTest {
 //    DataLoadFailed(val error: Throwable)
 //    SelectCurrency(val currency: String)
 //    RecalculateValues(val input: Double)
+//    IsOnline(val isOnline: Boolean)
 
     @Test
     fun `should reduce LoadInitialData`() {
@@ -118,6 +119,32 @@ internal class CurrencyListReducerTest {
 
         Assertions.assertThat(newState).matches {
             it.currencies.size == 1
+        }
+    }
+
+    @Test
+    fun `should reduce IsOnline`() {
+        val old = dummyCurrencyListState(currencies = emptyList(), isOnline = false)
+
+        val newState = reducer.invoke(
+            old, CurrencyListActions.IsOnline(true)
+        )
+
+        Assertions.assertThat(newState).matches {
+            it.isOnline
+        }
+    }
+
+    @Test
+    fun `should reduce IsOnline when it is off`() {
+        val old = dummyCurrencyListState(currencies = emptyList(), isOnline = true)
+
+        val newState = reducer.invoke(
+            old, CurrencyListActions.IsOnline(false)
+        )
+
+        Assertions.assertThat(newState).matches {
+            it.isOnline == false && it.offlineEvent != null
         }
     }
 }

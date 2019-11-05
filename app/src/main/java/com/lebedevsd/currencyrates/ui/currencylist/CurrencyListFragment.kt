@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lebedevsd.currencyrates.R
-import com.lebedevsd.currencyrates.base.connectivity.ConnectivityLiveData
 import com.lebedevsd.currencyrates.base.ui.BaseFragment
 import com.lebedevsd.currencyrates.ui.base.DiffAdapter
 import com.lebedevsd.currencyrates.ui.base.ImagesDisplayeDelegates
@@ -24,9 +22,6 @@ class CurrencyListFragment :
 
     @Inject
     lateinit var imageDisplayerDelegate: ImagesDisplayeDelegates
-
-    @Inject
-    lateinit var connectivityLiveData: ConnectivityLiveData
 
     private val currencyListAdapter by lazy {
         DiffAdapter(
@@ -69,9 +64,6 @@ class CurrencyListFragment :
             }
         })
 
-        connectivityLiveData.observe(this, Observer { state ->
-            viewModel.userAction(CurrencyListActions.IsOnline(state))
-        })
         bind(viewModel)
         return view
     }

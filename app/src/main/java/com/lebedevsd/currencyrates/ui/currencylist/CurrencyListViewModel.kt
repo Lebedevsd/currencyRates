@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.lebedevsd.currencyrates.base.mvi.MviMiddleware
 import com.lebedevsd.currencyrates.base.ui.BaseViewModel
 import com.lebedevsd.currencyrates.di.ViewModelAssistedFactory
+import com.lebedevsd.currencyrates.ui.currencylist.middleware.GetConnectionMiddleware
 import com.lebedevsd.currencyrates.ui.currencylist.middleware.GetCurrenciesMiddleware
 import com.lebedevsd.currencyrates.ui.currencylist.middleware.InputDebouncerMiddleware
 import com.lebedevsd.currencyrates.ui.currencylist.middleware.LoadDataEverySecondMiddleware
@@ -15,7 +16,8 @@ class CurrencyListViewModel @AssistedInject constructor(
     reducer: CurrencyListReducer,
     private val getCurrenciesMiddleware: GetCurrenciesMiddleware,
     private val everySecondMiddleware: LoadDataEverySecondMiddleware,
-    private val inputDebouncerMiddleware: InputDebouncerMiddleware
+    private val inputDebouncerMiddleware: InputDebouncerMiddleware,
+    private val getConnectionMiddleware: GetConnectionMiddleware
 ) : BaseViewModel<CurrencyListActions, CurrencyListState>(reducer, handle) {
 
     init {
@@ -27,7 +29,8 @@ class CurrencyListViewModel @AssistedInject constructor(
         return listOf(
             getCurrenciesMiddleware,
             everySecondMiddleware,
-            inputDebouncerMiddleware
+            inputDebouncerMiddleware,
+            getConnectionMiddleware
         )
     }
 

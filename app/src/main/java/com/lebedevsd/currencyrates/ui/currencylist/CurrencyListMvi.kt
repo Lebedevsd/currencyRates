@@ -27,14 +27,13 @@ sealed class CurrencyListActions : Action {
     object LoadData : CurrencyListActions()
     object ScreenPaused : CurrencyListActions()
     object ScreenResumed : CurrencyListActions()
-    data class IsOnline(val isOnline: Boolean) : CurrencyListActions()
     data class ValueInput(val input: String) : CurrencyListActions()
     data class DataLoaded(val currenciesPresentationModels: List<CurrencyPresentationModel>) :
         CurrencyListActions()
-
     class DataLoadFailed(val error: Throwable) : CurrencyListActions()
     data class SelectCurrency(val currency: String) : CurrencyListActions()
     data class RecalculateValues(val input: Double) : CurrencyListActions()
+    data class IsOnline(val isOnline: Boolean) : CurrencyListActions()
 }
 
 class CurrencyListReducer @Inject constructor() :

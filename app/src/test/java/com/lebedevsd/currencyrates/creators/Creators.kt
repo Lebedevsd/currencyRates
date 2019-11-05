@@ -2,6 +2,7 @@ package com.lebedevsd.currencyrates.creators
 
 import com.lebedevsd.currencyrates.api.model.CurrencyRatesResponse
 import com.lebedevsd.currencyrates.base.mvi.ViewStateErrorEvent
+import com.lebedevsd.currencyrates.base.mvi.ViewStateOfflineEvent
 import com.lebedevsd.currencyrates.ui.base.FlagNameImage
 import com.lebedevsd.currencyrates.ui.base.Image
 import com.lebedevsd.currencyrates.ui.currency.CurrencyPresentationModel
@@ -35,10 +36,14 @@ fun dummyCurrencyListState(
     ),
     selectedCurrency: String = "EUR",
     selectedValue: Double = 1.0,
-    error: ViewStateErrorEvent? = null
+    error: ViewStateErrorEvent? = null,
+    offlineEvent: ViewStateOfflineEvent? = null,
+    isOnline: Boolean = true
 ) = CurrencyListState(
     currencies = currencies,
     selectedCurrency = selectedCurrency,
     selectedValue = selectedValue,
-    error = error
+    error = error,
+    offlineEvent = offlineEvent,
+    isOnline = isOnline
 )

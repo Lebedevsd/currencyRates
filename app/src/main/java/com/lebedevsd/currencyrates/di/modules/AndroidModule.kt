@@ -2,10 +2,13 @@ package com.lebedevsd.currencyrates.di.modules
 
 import android.app.Application
 import android.content.Context
-import com.lebedevsd.currencyrates.base.connectivity.ConnectivityLiveData
+import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -20,8 +23,9 @@ class AndroidModule {
 
     @Provides
     @Singleton
-    internal fun providesConnectivityLiveData(application: Application): ConnectivityLiveData {
-        return ConnectivityLiveData(application)
+    internal fun providesConnectivityState(application: Application): Flowable<Connectivity> {
+        return ReactiveNetwork.observeNetworkConnectivity(application.applicationContext)
+            .toFlowable(BackpressureStrategy.LATEST)
     }
 
     @Provides
